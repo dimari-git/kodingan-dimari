@@ -167,12 +167,11 @@ if (isset($_POST['proses_simpan'])) {
         formData.append('nama_pembeli', '<?php echo $nama_pembeli; ?>');
         formData.append('alamat_pembeli', '<?php echo $alamat_pembeli; ?>');
         formData.append('kontak_pembeli', '<?php echo $kontak_pembeli; ?>');
-        formData.append('grand_total', '<?php echo $grand_total; ?>'); // Mengirim nominal asli hasil loop hitungan PHP
+        formData.append('grand_total', '<?php echo $grand_total; ?>'); 
 
         fetch('checkout.php', { method: 'POST', body: formData })
         .then(res => res.text())
         .then(data => {
-            // Tampilkan Notifikasi Atas & Tombol Batal
             document.getElementById('notif-sukses').classList.remove('opacity-0', '-translate-y-10');
             document.getElementById('notif-sukses').classList.add('opacity-100', 'translate-y-0');
             

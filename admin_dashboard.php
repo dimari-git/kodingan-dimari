@@ -17,32 +17,24 @@ if (isset($_POST['simpan_produk'])) {
     $stok   = (int)$_POST['stok'];
     $id_p   = $_POST['id_produk'];
 
-    // --- KODE AMBIL DATA FILE FOTO BARU ---
     $nama_foto = $_FILES['foto']['name'];
     $tmp_foto  = $_FILES['foto']['tmp_name'];
     $foto_final = null;
 
-    // Jika admin mengunggah foto, proses filenya
     if (!empty($nama_foto)) {
         $ekstensi = pathinfo($nama_foto, PATHINFO_EXTENSION);
-        // Membuat nama unik agar file tidak saling menimpa di folder img/
         $foto_final = time() . "_" . str_replace(' ', '_', $nama) . "." . $ekstensi;
         move_uploaded_file($tmp_foto, "img/" . $foto_final);
     }
 
     if (!empty($id_p)) {
-        // --- LOGIKA EDIT ---
         if (!empty($nama_foto)) {
-            // Jika saat edit admin mengganti foto baru
             mysqli_query($konek, "UPDATE produk SET nama_produk='$nama', kategori='$kat', harga='$harga', stok='$stok', foto='$foto_final' WHERE id_produk='$id_p'");
         } else {
-            // Jika saat edit admin tidak mengganti foto (tetap pakai foto lama)
             mysqli_query($konek, "UPDATE produk SET nama_produk='$nama', kategori='$kat', harga='$harga', stok='$stok' WHERE id_produk='$id_p'");
         }
         echo "<script>alert('Produk berhasil diperbarui!'); window.location.href='admin_dashboard.php';</script>";
     } else {
-        // --- LOGIKA TAMBAH BARU ---
-        // Kolom 'foto' dimasukkan ke dalam query insert
         mysqli_query($konek, "INSERT INTO produk (nama_produk, kategori, harga, stok, foto) VALUES ('$nama', '$kat', '$harga', '$stok', " . ($foto_final ? "'$foto_final'" : "NULL") . ")");
         echo "<script>alert('Produk baru berhasil ditambahkan!'); window.location.href='admin_dashboard.php';</script>";
     }
@@ -92,7 +84,7 @@ $tampil_pesanan = mysqli_query($konek, "SELECT * FROM transaksi ORDER BY id_tran
             
             <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm h-fit">
                 <h3 class="text-sm font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">
-                    <?php echo $edit_mode ? '✏️ Edit Data Produk' : 'Tambah Produk Baru'; ?>
+                    <?php echo $edit_mode ? 'Edit Data Produk' : 'Tambah Produk Baru'; ?>
                 </h3>
                 
                 <form method="POST" enctype="multipart/form-data" class="space-y-3">

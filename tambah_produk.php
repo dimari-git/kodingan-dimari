@@ -7,19 +7,14 @@ if (isset($_POST['tambah_produk'])) {
     $stok        = $_POST['stok'];
     $kategori    = mysqli_real_escape_string($konek, $_POST['kategori']);
     
-    // Logika Upload Gambar
     $nama_file   = $_FILES['foto']['name'];
     $tmp_file    = $_FILES['foto']['tmp_name'];
     
-    // Jika admin memilih file gambar
     if (!empty($nama_file)) {
-        // Ambil ekstensi filenya (jpg/png)
         $ekstensi = pathinfo($nama_file, PATHINFO_EXTENSION);
-        // Bikin nama unik baru supaya tidak bentrok (misal: 17123456_produk.png)
         $foto_baru = time() . "_" . $nama_produk . "." . $ekstensi;
         $jalur_simpan = "img/" . $foto_baru;
         
-        // Pindahkan file dari komputer admin ke folder img/ project kita
         if (move_uploaded_file($tmp_file, $jalur_simpan)) {
             $query = "INSERT INTO produk (nama_produk, harga, stok, kategori, foto) 
                       VALUES ('$nama_produk', '$harga', '$stok', '$kategori', '$foto_baru')";
@@ -29,7 +24,6 @@ if (isset($_POST['tambah_produk'])) {
                       VALUES ('$nama_produk', '$harga', '$stok', '$kategori', NULL)";
         }
     } else {
-        // Jika admin tidak mengunggah gambar, set NULL atau kosong
         $query = "INSERT INTO produk (nama_produk, harga, stok, kategori, foto) 
                   VALUES ('$nama_produk', '$harga', '$stok', '$kategori', NULL)";
     }

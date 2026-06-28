@@ -4,23 +4,20 @@ session_start();
 $error = "";
 
 if (isset($_POST['login'])) {
-    // Ambil data input dan amankan dari SQL Injection
     $username = mysqli_real_escape_string($konek, $_POST['username']);
     $password = mysqli_real_escape_string($konek, $_POST['password']);
 
-    // Cek ke database berdasarkan username/email DAN password
     $query = mysqli_query($konek, "SELECT * FROM users WHERE (username='$username' OR email='$username') AND password='$password'");
 
     if (mysqli_num_rows($query) === 1) {
         $data = mysqli_fetch_assoc($query);
 
-        // Cek Level Role masing-masing akun
         if ($data['level'] === 'admin') {
-            $_SESSION['admin'] = $data['username']; // Set session khusus admin
+            $_SESSION['admin'] = $data['username']; 
             header("Location: admin_dashboard.php");
             exit;
         } else {
-            $_SESSION['user'] = $data['username']; // Set session khusus user biasa
+            $_SESSION['user'] = $data['username']; 
             header("Location: toko.php");
             exit;
         }

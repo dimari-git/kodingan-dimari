@@ -19,7 +19,6 @@ $query = mysqli_query($konek, "SELECT * FROM produk");
 </head>
 <body class="bg-[#E1E5D3] min-h-screen pb-28 text-gray-800">
 
-    <!-- NAVBAR -->
     <nav class="bg-white  border-b border-gray-100 py-4 px-6 sticky top-0 z-50 flex flex-wrap justify-between items-center gap-4">
         <div class="flex items-center gap-2">
             <span class="text-xl font-bold text-[#556b3f] tracking-wide">Toko Dimari</span>
@@ -81,24 +80,18 @@ $query = mysqli_query($konek, "SELECT * FROM produk");
                         <p class="text-[11px] text-gray-400 mt-1">Stok: <?php echo $row['stok']; ?></p>
                     </div>
 
-                    <!-- Bagian Harga & Tombol Sejajar Sesuai Gambar -->
-                    <!-- Bagian Harga & Kuantitas Sejajar Rapi -->
             <div class="mt-4 flex items-center justify-between gap-2">
-                <!-- Harga di Kiri -->
                 <p class="text-base font-extrabold text-[#556b3f] whitespace-nowrap">
                     Rp <?php echo number_format($row['harga'], 0, ',', '.'); ?>
                 </p>
                 
-                <!-- Tombol Kuantitas (Minus - Angka - Plus) di Kanan -->
                 <div class="flex items-center bg-gray-100 rounded-full p-1 border border-gray-200 shadow-sm">
-                    <!-- Tombol Minus -->
                     <button type="button" 
                             onclick="kurangQty(this)" 
                             class="w-7 h-7 flex items-center justify-center bg-white text-gray-600 rounded-full hover:bg-gray-200 transition duration-150 font-bold text-sm focus:outline-none select-none">
                         -
                     </button>
                     
-                    <!-- Input Angka Kuantitas (Hidden Aslinya, Ditampilkan Teks) -->
                     <div class="px-2.5 text-center min-w-[24px]">
                         <span class="text-xs font-bold text-gray-800 qty-display">0</span>
                         <input type="number" name="qty[<?php echo $row['id_produk']; ?>]" value="0" min="0" max="<?php echo $row['stok']; ?>"
@@ -107,7 +100,6 @@ $query = mysqli_query($konek, "SELECT * FROM produk");
                             onchange="hitungOtomatisTotal()">
                     </div>
                     
-                    <!-- Tombol Plus -->
                     <button type="button" 
                             onclick="tambahQty(this)" 
                             class="w-7 h-7 flex items-center justify-center bg-[#8ba869] text-white rounded-full hover:bg-[#799658] transition duration-150 font-bold text-sm focus:outline-none select-none shadow-sm">
@@ -120,7 +112,6 @@ $query = mysqli_query($konek, "SELECT * FROM produk");
                 <?php endwhile; ?>
             </div>
 
-            <!-- STICKY BAR BAWAH -->
             <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] z-40">
                 <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                     
@@ -154,9 +145,7 @@ $query = mysqli_query($konek, "SELECT * FROM produk");
 
     </div>
 
-    <!-- JAVASCRIPT UNTUK HITUNG OTOMATIS -->
     <script>
-// Fungsi ketika tombol (+) diklik
 function tambahQty(button) {
     let wrapper = button.parentElement;
     let input = wrapper.querySelector('.input-qty');
@@ -173,7 +162,6 @@ function tambahQty(button) {
     }
 }
 
-// Fungsi ketika tombol (-) diklik
 function kurangQty(button) {
     let wrapper = button.parentElement;
     let input = wrapper.querySelector('.input-qty');
@@ -187,7 +175,6 @@ function kurangQty(button) {
     }
 }
 
-// Fungsi menghitung total item dan subtotal harga secara real-time
 function hitungOtomatisTotal() {
     let semuaInputQty = document.querySelectorAll('.input-qty');
     let totalHarga = 0;
@@ -203,7 +190,6 @@ function hitungOtomatisTotal() {
         }
     });
 
-    // Update tampilan angka di sticky bar bawah
     document.getElementById('total-item').innerText = totalItem;
     document.getElementById('total-harga').innerText = totalHarga.toLocaleString('id-ID');
 }
