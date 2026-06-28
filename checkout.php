@@ -12,7 +12,11 @@ $username_session = $_SESSION['user'];
 $query_user = mysqli_query($konek, "SELECT * FROM users WHERE username = '$username_session'");
 $data_user  = mysqli_fetch_assoc($query_user);
 
-$nama_pembeli = $data_user['username']; 
+if (isset($_POST['nama_pembeli']) && !empty(trim($_POST['nama_pembeli']))) {
+    $nama_pembeli = mysqli_real_escape_string($konek, $_POST['nama_pembeli']);
+} else {
+    $nama_pembeli = $data_user['username']; 
+}
 
 $alamat_pembeli = isset($_POST['alamat_pembeli']) ? mysqli_real_escape_string($konek, $_POST['alamat_pembeli']) : '-';
 $kontak_pembeli = isset($_POST['kontak_pembeli']) ? mysqli_real_escape_string($konek, $_POST['kontak_pembeli']) : '-';
@@ -90,7 +94,7 @@ if (isset($_POST['proses_simpan'])) {
 
         <div class="mb-6 bg-[#f8faf7] p-4 rounded-2xl border border-[#eef3ec] text-xs space-y-2">
             <div class="flex flex-col sm:flex-row sm:justify-between border-b border-gray-100 pb-1">
-                <span class="text-gray-400">Nama:</span> 
+                <span class="text-gray-400">Nama Pembeli:</span> 
                 <span class="font-bold text-gray-700"><?php echo htmlspecialchars($nama_pembeli); ?></span>
             </div>
             <div class="flex flex-col sm:flex-row sm:justify-between border-b border-gray-100 pb-1">
@@ -139,7 +143,7 @@ if (isset($_POST['proses_simpan'])) {
         </div>
 
         <div class="text-center text-[11px] text-gray-400 mt-8 pt-4 border-t border-gray-100">
-            <p>Terima kasih telah berbelanja di Matcha Stationery!</p>
+            <p>Terima kasih telah berbelanja di Toko Dimari!</p>
         </div>
 
         <div class="mt-8">
